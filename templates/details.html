@@ -4,13 +4,13 @@
 {% load comments %}
 
 {% block meta %}
-    <meta name="Keywords" content="{{resource.tags.all|join:', '}}" />
-    <meta name="Description" content="{{resource.short_description}}" />
-    <link rel="canonical" href="http://www.opendataphilly.org{{SITE_ROOT}}{{resource.get_absolute_url}}" />
+    <meta name="keywords" content="{{ resource.tags.all|join:', ' }}" />
+    <meta name="description" content="{{ resource.short_description }}" />
+    <link rel="canonical" href="{{ request.META.HTTP_HOST }}{{ SITE_ROOT }}{{ resource.get_absolute_url }}" />
     {% if resource.get_images %}
-    <link rel="image_src" href="http://www.opendataphilly.org{{SITE_ROOT}}{% thumbnail resource.get_images.0 218x273 %}"/>
+    <link rel="image_src" href="{{ request.META.HTTP_HOST }}{{ SITE_ROOT }}{% thumbnail resource.get_images.0 218x273 %}"/>
     {% else %}
-    <link rel="image_src" href="http://www.opendataphilly.org{{SITE_ROOT}}/static/images/logo.png"/>
+    <link rel="image_src" href="{{ request.META.HTTP_HOST }}{{ SITE_ROOT }}/static/images/logo.png"/>
     {% endif %}
 
 {% endblock %}
@@ -18,24 +18,23 @@
 {% block title %} - {{resource}}{% endblock %}
 
 {% block js_ready %}
-	<script>
-		$(document).ready(function () {
-      		odp.getTags();
-			odp.setupSearchInput();
-
-			odp.setupCommentForm();
-			odp.makeTabs('#content_resource, #content_data, #content_ratings');
-			odp.makeDialog('.tab_image');
-			odp.makeTabs('.tab_container');
-		});
-	</script>
+    <script>
+        $(document).ready(function () {
+            odp.getTags();
+            odp.setupSearchInput();
+            odp.setupCommentForm();
+            odp.makeTabs('#content_resource, #content_data, #content_ratings');
+            odp.makeDialog('.tab_image');
+            odp.makeTabs('.tab_container');
+        });
+    </script>
 {% endblock %}
 
 {% block center_container %}
-	<h1 id="title">{{resource}}</h1>
-	<h2 id="description">{{resource.short_description|safe}}</h2>
+    <h1 id="title">{{resource}}</h1>
+    <h2 id="description">{{resource.short_description|safe}}</h2>
 
-  <div class="tab_container" id="content_resource">
+    <div class="tab_container" id="content_resource">
     {% if perms.opendata.change_resource %}
         <div id="admin_link"><a href="{{SITE_ROOT}}/_admin_/opendata/resource/{{resource.id}}" target="_blank">Edit</a></div>
     {% endif %}
@@ -60,9 +59,9 @@
         {% if resource.data_types.all.count > 0 %}
         <div class="info_label">Data Types</div>
         <div class="info_data">
-        	{% for dt in resource.data_types.all %}
-		    	{{dt}}{% if not forloop.last %}, {% endif %}
-          	{% endfor %}
+            {% for dt in resource.data_types.all %}
+                {{dt}}{% if not forloop.last %}, {% endif %}
+            {% endfor %}
         </div>
         {% endif %}
         <div class="info_label">Categories</div>
@@ -75,26 +74,26 @@
       </div>
       <div class="tab_container" id="tab_image_container">
         {% if resource.get_images %}
-			{% for i in resource.get_images %}
-			<div class="tab_image" id="tab_image_{{i.id}}">
-			  <img src="{% thumbnail i 218x273 %}" alt="{{i.title}}">
-			  <div class="tab_image_detail">{{i.title}} </div>
-			  <div title="{{i.title}}" class="dialog" id="dialog_{{i.id}}">
-				<img src="{% thumbnail i 626x520 %}">
-			  </div>
-			</div>
-			{% endfor %}
+            {% for i in resource.get_images %}
+            <div class="tab_image" id="tab_image_{{i.id}}">
+              <img src="{% thumbnail i 218x273 %}" alt="{{i.title}}">
+              <div class="tab_image_detail">{{i.title}} </div>
+              <div title="{{i.title}}" class="dialog" id="dialog_{{i.id}}">
+                <img src="{% thumbnail i 626x520 %}">
+              </div>
+            </div>
+            {% endfor %}
       {% if resource.get_images.count > 1 %}
-			<ul class="tab_image_pager">
-			  {% for i in resource.get_images %}
-			  <li><a href="#tab_image_{{i.id}}" onclick="odp.trackEvent('View Small Image', 'Resource Url Image', 'Image', {{i.id}})"></a></li>
-			  {% endfor %}
+            <ul class="tab_image_pager">
+              {% for i in resource.get_images %}
+              <li><a href="#tab_image_{{i.id}}" onclick="odp.trackEvent('View Small Image', 'Resource Url Image', 'Image', {{i.id}})"></a></li>
+              {% endfor %}
       {% endif %}
-			</ul>
-		{% else %}
-			<div class="tab_image" id="tab_image_1">
-			  <img src="/static/images/detail_no_image.png" alt="No Resource Images">
-			</div>
+            </ul>
+        {% else %}
+            <div class="tab_image" id="tab_image_1">
+              <img src="/static/images/detail_no_image.png" alt="No Resource Images">
+            </div>
         {% endif %}
 
       </div>
@@ -102,90 +101,90 @@
     </div>
 
     <div class="tab_body" id="tab_extra_info">
-	  <div id="tab_data">
-		{% if resource.organization %}
-		<div class="info_label">Organization</div><div class="info_data"><a href="{{SITE_ROOT}}/opendata/search/?qs={{resource.organization}}" onclick="odp.trackEvent('Search Link', 'Resource Organization', 'Resource', {{resource.id}})">{{resource.organization}}</a></div>
-		{% endif %}
-		{% if resource.division %}
-		<div class="info_label">Division</div><div class="info_data"><a href="{{SITE_ROOT}}/opendata/search/?qs={{resource.division}}" onclick="odp.trackEvent('Search Link', 'Resource Division', 'Resource', {{resource.id}})">{{resource.division}}</a></div>
-		{% endif %}
-		{% if resource.release_date %}
-		<div class="info_label">Release Date</div><div class="info_data">{{resource.release_date}}</a></div>
-		{% endif %}
-		{% if resource.time_period %}
-		<div class="info_label">Valid Time Period</div><div class="info_data">{{resource.time_period}}</div>
-		{% endif %}
-		{% if resource.data_types.all.count > 0 %}
-		<div class="info_label">Data Types</div>
-		<div class="info_data">
-			{% for dt in resource.data_types.all %}
-				{{dt}}{% if not forloop.last %}, {% endif %}
-			{% endfor %}
-		</div>
-		{% endif %}
-		<div class="info_label">Categories</div>
-		<div class="info_data">
-		  {% for tag in resource.tags.all %}
-			<a href="{{SITE_ROOT}}/opendata/tag/{{tag.id}}" onclick="odp.trackEvent('Search Link', 'Resource Tag', 'Tag', '{{tag}}')">{{tag}}</a>{% if not forloop.last %}, {% endif %}
-		  {% endfor %}
-		</div>
-		<div class="info_label">Usage</div><div class="info_data">{{resource.usage}}</div>
-		<div class="info_label">Description</div><div class="info_data">{{resource.description|safe}}</div>
-		{% if resource.updates %}
-			<div class="info_label">Update Frequency</div><div class="info_data">{{resource.updates}}</a></div>
-		{% endif %}
-		{% if resource.area_of_interest %}
-			<div class="info_label">Area of Interest</div><div class="info_data">{{resource.area_of_interest}}</a></div>
-		{% endif %}
-		{% if resource.coord_sys.all.count > 0 %}
-			<div class="info_label">Coordinate Systems</div>
-			<div class="info_data">
-				  {% for cs in resource.coord_sys.all %}
-					{{cs}}{% if not forloop.last %}, {% endif %}
-				  {% endfor %}
-			</div>
-		{% endif %}
-		{% if resource.contact_phone %}
-			<div class="info_label">Contact Phone</div><div class="info_data">{{resource.contact_phone}}</a></div>
-		{% endif %}
-		{% if resource.contact_email %}
-			<div class="info_label">Contact Email</div><div class="info_data"><a href="mailto:{{resource.contact_email}}" target="_blank" onclick="odp.trackEvent('External Link', 'Resource Email', 'Email', '{{resource.contact_email}}')">{{resource.contact_email}}</a></div>
-		{% endif %}
-		{% if resource.contact_url %}
-			<div class="info_label">Contact Url</div><div class="info_data"><a href="{{resource.contact_url}}" target="_blank" onclick="odp.trackEvent('External Link', 'Resource Contact Url', 'Url', '{{resource.contact_url}}')">{{resource.contact_url}}</a></div>
-		{% endif %}
+      <div id="tab_data">
+        {% if resource.organization %}
+        <div class="info_label">Organization</div><div class="info_data"><a href="{{SITE_ROOT}}/opendata/search/?qs={{resource.organization}}" onclick="odp.trackEvent('Search Link', 'Resource Organization', 'Resource', {{resource.id}})">{{resource.organization}}</a></div>
+        {% endif %}
+        {% if resource.division %}
+        <div class="info_label">Division</div><div class="info_data"><a href="{{SITE_ROOT}}/opendata/search/?qs={{resource.division}}" onclick="odp.trackEvent('Search Link', 'Resource Division', 'Resource', {{resource.id}})">{{resource.division}}</a></div>
+        {% endif %}
+        {% if resource.release_date %}
+        <div class="info_label">Release Date</div><div class="info_data">{{resource.release_date}}</a></div>
+        {% endif %}
+        {% if resource.time_period %}
+        <div class="info_label">Valid Time Period</div><div class="info_data">{{resource.time_period}}</div>
+        {% endif %}
+        {% if resource.data_types.all.count > 0 %}
+        <div class="info_label">Data Types</div>
+        <div class="info_data">
+            {% for dt in resource.data_types.all %}
+                {{dt}}{% if not forloop.last %}, {% endif %}
+            {% endfor %}
+        </div>
+        {% endif %}
+        <div class="info_label">Categories</div>
+        <div class="info_data">
+          {% for tag in resource.tags.all %}
+            <a href="{{SITE_ROOT}}/opendata/tag/{{tag.id}}" onclick="odp.trackEvent('Search Link', 'Resource Tag', 'Tag', '{{tag}}')">{{tag}}</a>{% if not forloop.last %}, {% endif %}
+          {% endfor %}
+        </div>
+        <div class="info_label">Usage</div><div class="info_data">{{resource.usage}}</div>
+        <div class="info_label">Description</div><div class="info_data">{{resource.description|safe}}</div>
+        {% if resource.updates %}
+            <div class="info_label">Update Frequency</div><div class="info_data">{{resource.updates}}</a></div>
+        {% endif %}
+        {% if resource.area_of_interest %}
+            <div class="info_label">Area of Interest</div><div class="info_data">{{resource.area_of_interest}}</a></div>
+        {% endif %}
+        {% if resource.coord_sys.all.count > 0 %}
+            <div class="info_label">Coordinate Systems</div>
+            <div class="info_data">
+                  {% for cs in resource.coord_sys.all %}
+                    {{cs}}{% if not forloop.last %}, {% endif %}
+                  {% endfor %}
+            </div>
+        {% endif %}
+        {% if resource.contact_phone %}
+            <div class="info_label">Contact Phone</div><div class="info_data">{{resource.contact_phone}}</a></div>
+        {% endif %}
+        {% if resource.contact_email %}
+            <div class="info_label">Contact Email</div><div class="info_data"><a href="mailto:{{resource.contact_email}}" target="_blank" onclick="odp.trackEvent('External Link', 'Resource Email', 'Email', '{{resource.contact_email}}')">{{resource.contact_email}}</a></div>
+        {% endif %}
+        {% if resource.contact_url %}
+            <div class="info_label">Contact Url</div><div class="info_data"><a href="{{resource.contact_url}}" target="_blank" onclick="odp.trackEvent('External Link', 'Resource Contact Url', 'Url', '{{resource.contact_url}}')">{{resource.contact_url}}</a></div>
+        {% endif %}
         <div class="info_label">Date Added</div><div class="info_data">{{resource.created}}</div>
         <div class="info_label">Last Update</div><div class="info_data">{{resource.last_updated}}</div>
 
 
 
-	  </div>
-	  <div class="tab_container" id="tab_image_container">
-		{% if resource.get_images %}
-			{% for i in resource.get_images %}
-			<div class="tab_image" id="tab_image_{{i.id}}">
-			  <img src="{% thumbnail i 218x273 %}" alt="{{i.title}}">
-			  <div class="tab_image_detail">{{i.title}} </div>
-			  <div title="{{i.title}}" class="dialog" id="dialog_{{i.id}}">
-				<img src="{% thumbnail i 626x520 %}">
-			  </div>
-			</div>
-			{% endfor %}
-	  {% if resource.get_images.count > 1 %}
-			<ul class="tab_image_pager">
-			  {% for i in resource.get_images %}
-			  <li><a href="#tab_image_{{i.id}}" onclick="odp.trackEvent('View Small Image', 'Resource Url Image', 'Image', {{i.id}})"></a></li>
-			  {% endfor %}
-	  {% endif %}
-			</ul>
-		{% else %}
-			<div class="tab_image" id="tab_image_1">
-			  <img src="/static/images/detail_no_image.png" alt="No Resource Images">
-			</div>
-		{% endif %}
+      </div>
+      <div class="tab_container" id="tab_image_container">
+        {% if resource.get_images %}
+            {% for i in resource.get_images %}
+            <div class="tab_image" id="tab_image_{{i.id}}">
+              <img src="{% thumbnail i 218x273 %}" alt="{{i.title}}">
+              <div class="tab_image_detail">{{i.title}} </div>
+              <div title="{{i.title}}" class="dialog" id="dialog_{{i.id}}">
+                <img src="{% thumbnail i 626x520 %}">
+              </div>
+            </div>
+            {% endfor %}
+      {% if resource.get_images.count > 1 %}
+            <ul class="tab_image_pager">
+              {% for i in resource.get_images %}
+              <li><a href="#tab_image_{{i.id}}" onclick="odp.trackEvent('View Small Image', 'Resource Url Image', 'Image', {{i.id}})"></a></li>
+              {% endfor %}
+      {% endif %}
+            </ul>
+        {% else %}
+            <div class="tab_image" id="tab_image_1">
+              <img src="/static/images/detail_no_image.png" alt="No Resource Images">
+            </div>
+        {% endif %}
 
-	  </div>
-	  <div class="clear_left"></div>
+      </div>
+      <div class="clear_left"></div>
     </div>
   </div>
 
@@ -269,7 +268,7 @@
             if (rating_test != 0) {
                 var rating = rating_test/{{resource.rating.votes}};
                 rating = Math.floor(rating);
-            	$("input:radio.star_resource")[rating-1].checked = 'checked';
+                $("input:radio.star_resource")[rating-1].checked = 'checked';
             }
           </script>
         </div>
@@ -327,7 +326,7 @@
                 <script type="text/javascript">
                   var rating = {{comment.rating|default:"0"}};
                   if (rating != 0) {
-                  	$("input:radio.star_{{comment.id}}")[{{comment.rating}}-1].checked = 'checked';
+                    $("input:radio.star_{{comment.id}}")[{{comment.rating}}-1].checked = 'checked';
                   }
                 </script>
               </div>

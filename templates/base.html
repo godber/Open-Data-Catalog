@@ -1,38 +1,38 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         {% block meta %}
         {% endblock %}
-		<title>Phoenix Data Catalog{% block title %}{% endblock %}</title>
+        <title>Phoenix Data Catalog{% block title %}{% endblock %}</title>
 
-			{% block tophead %}
-			{% endblock %}
+            {% block tophead %}
+            {% endblock %}
 
-			<script type="text/javascript" src="/static/jquery-1.5.2.js"></script>
-			<script type="text/javascript" src="/static/jQueryUI/js/jquery-ui-1.8.11.min.js"></script>
-			<script type="text/javascript" src="/static/StarRating/jquery.rating.js"></script>
-			<script type="text/javascript" src="/static/jquery.query-2.1.7.js"></script>
-			<script type="text/javascript" src="/static/odp.js"></script>
-      <!-- TYPEKIT -->
-      <script type="text/javascript" src="http://use.typekit.com/nni2gly.js"></script>
-      <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+            <script type="text/javascript" src="/static/jquery-1.5.2.js"></script>
+            <script type="text/javascript" src="/static/jQueryUI/js/jquery-ui-1.8.11.min.js"></script>
+            <script type="text/javascript" src="/static/StarRating/jquery.rating.js"></script>
+            <script type="text/javascript" src="/static/jquery.query-2.1.7.js"></script>
+            <script type="text/javascript" src="/static/odp.js"></script>
+            <!-- TYPEKIT -->
+            <script type="text/javascript" src="http://use.typekit.com/nni2gly.js"></script>
+            <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
 
-			<link rel="stylesheet" href="/static/reset.css" type="text/css"/>
-			<link rel="stylesheet" href="/static/StarRating/jquery.rating.css" type="text/css"/>
-      <link rel="stylesheet" href="/static/jQueryUI/css/jquery.ui.base.css" type="text/css"/>
-      <link rel="stylesheet" href="/static/odp.css" type="text/css"/>
+            <link rel="stylesheet" href="/static/reset.css" type="text/css"/>
+            <link rel="stylesheet" href="/static/StarRating/jquery.rating.css" type="text/css"/>
+            <link rel="stylesheet" href="/static/jQueryUI/css/jquery.ui.base.css" type="text/css"/>
+            <link rel="stylesheet" href="/static/odp.css" type="text/css"/>
 
             <script type="text/javascript">
-                odp.site_root = "{{SITE_ROOT}}";    
+                odp.site_root = "{{SITE_ROOT}}";
             </script>
 
-			{% block js_ready %}
-			{% endblock %}
+            {% block js_ready %}
+            {% endblock %}
 
-			{% block bottomhead %}
-			{% endblock %}
-			
+            {% block bottomhead %}
+            {% endblock %}
+            
             <script type="text/javascript">
 
               var _gaq = _gaq || [];
@@ -47,21 +47,19 @@
 
             </script>
 
-	</head>
+    </head>
 
-	<body {% block body_load %}{% endblock %} {% block body_id %}{% endblock %} class="{% block body_class %}base_body{% endblock %}">
-    	<div id="wrapper">
+    <body {% block body_load %}{% endblock %} {% block body_id %}{% endblock %} class="{% block body_class %}base_body{% endblock %}">
+        <div id="wrapper">
 
-    		{% block content %}
-		    	main content goes here
+            {% block content %}
+                main content goes here
             {% endblock %}
 
-    	</div>
+        </div>
 
+    {% block endpage %}
+    {% endblock %}
 
-
-	{% block endpage %}
-	{% endblock %}
-
-	</body>
+    </body>
 </html>
