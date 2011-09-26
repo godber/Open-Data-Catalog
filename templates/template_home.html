@@ -1,33 +1,33 @@
 {% extends "base.html" %}
 
 {% block js_ready %}
-	<script>
-		$(document).ready(function () {
-			odp.getTags();
-			odp.setupSearchInput();
-		});
-	</script>
+    <script>
+        $(document).ready(function () {
+            odp.getTags();
+            odp.setupSearchInput();
+        });
+    </script>
 {% endblock %}
 
 {% block content %}
 
-{% include "sidebar.html" %}
+    {% include "sidebar.html" %}
 
-	<div id="center_container" class="home">
-{% include "loginlogout.html" %}
+    <div id="center_container" class="home">
 
-    <h1>Phoenix Data Catalog</h1>
-    <!--<h2>With some description here.</h2>-->
+        {% include "loginlogout.html" %}
 
-    {% include "searchbar.html" %}
+        <h1>Phoenix Data Catalog</h1>
+        <!--<h2>With some description here.</h2>-->
 
-    <div id="center_content">
-			{% block center_container %}
-			{% endblock %}
-		</div>
+        {% include "searchbar.html" %}
 
-	</div>
+        <div id="center_content">
+            {% block center_container %}{% endblock %}
+        </div>
 
-  {% include "footer.html" %}
+    </div>
+
+    {% include "footer.html" %}
 
 {% endblock %}
