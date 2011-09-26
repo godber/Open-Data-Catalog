@@ -25,9 +25,9 @@ class BaseResourceFeed(Feed):
 
 
 class ResourcesFeed(BaseResourceFeed):
-    title = "OpenDataPhilly.org: Resources - All"
+    title = "Phoenix Data Catalog: Resources - All"
     link = "/feeds/resources/"
-    description = "List of resources on OpenDataPhilly.org listed in the order they were added"
+    description = "List of resources on Phoenix Data Catalog listed in the order they were added"
     description_template = "feeds/resource.html"
     feed_type = Rss2
 
@@ -35,9 +35,9 @@ class ResourcesFeed(BaseResourceFeed):
         return Resource.objects.order_by('-created')
     
 class UpdatesFeed(BaseResourceFeed):
-    title = "OpenDataPhilly.org: Resources - Last Updated"
+    title = "Phoenix Data Catalog: Resources - Last Updated"
     link = "/feeds/updates/"
-    description = "List of resources on OpenDataPhilly.org listed in the order they were last updated"
+    description = "List of resources on Phoenix Data Catalog listed in the order they were last updated"
     description_template = "feeds/resource.html"
     feed_type = Rss2
 
@@ -45,9 +45,9 @@ class UpdatesFeed(BaseResourceFeed):
         return Resource.objects.order_by('-last_updated')
     
 class IdeasFeed(Feed):
-    title = "OpenDataPhilly.org: Ideas"
+    title = "Phoenix Data Catalog: Ideas"
     link = "/feeds/ideas/"
-    description = "List of ideas on OpenDataPhilly.org listed in the order they were added"
+    description = "List of ideas on Phoenix Data Catalog listed in the order they were added"
     description_template = "feeds/idea.html"
     feed_type = Rss2
 
@@ -68,7 +68,7 @@ class TagFeed(BaseResourceFeed):
     def get_object(self, request, tag_id):
         return get_object_or_404(Tag, pk=tag_id)
     def title(self, obj):
-        return "OpenDataPhilly.org: Resources in %s" % obj.tag_name
+        return "Phoenix Data Catalog: Resources in %s" % obj.tag_name
     def link(self, obj):
         return "/feeds/tag/%i" % obj.id
     def description(self, obj):

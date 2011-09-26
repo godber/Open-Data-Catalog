@@ -142,7 +142,7 @@ def suggest_content(request):
             }
             
             
-            subject, user_email = 'OpenDataPhilly - Data Submission', (request.user.first_name + " " + request.user.last_name, request.user.email)
+            subject, user_email = 'Phoenix Data Catalog - Data Submission', (request.user.first_name + " " + request.user.last_name, request.user.email)
             text_content = render_to_string('submit_email.txt', data)
             text_content_copy = render_to_string('submit_email_copy.txt', data)
             mail_managers(subject, text_content)
